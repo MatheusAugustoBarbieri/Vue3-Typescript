@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box formulario">
     <div class="columns">
       <div
         class="column is-8"
@@ -10,10 +10,11 @@
           type="text"
           class="input"
           placeholder="Qual tarefa você deseja iniciar?"
+          v-model="descricao"
         />
       </div>
       <div class="column">
-        <Temporizador />
+        <Temporizador @aoTempoizadorFinalizado="finalizarTarefa" />
       </div>
     </div>
   </div>
@@ -24,6 +25,29 @@ import Temporizador from "./Temporizador.vue";
 
 export default defineComponent({
   name: "FormularioComponent",
+  emits: ["aoSalvarTarefa"],
   components: { Temporizador },
+  data() {
+    return {
+      descricao: "",
+    };
+  },
+  methods: {
+    finalizarTarefa(tempoDecorrido: number): void {
+      this.$emit("aoSalvarTarefa", {
+        duracaoEmSegundos: tempoDecorrido,
+        descricao: this.descricao,
+      });
+      this.descricao = "";
+    },
+  },
 });
 </script>
+
+<style>
+/* usando variaveis css */
+.formulario {
+  color: var(--texto-primario);
+  background-color: var(--bg-primario);
+}
+</style>
