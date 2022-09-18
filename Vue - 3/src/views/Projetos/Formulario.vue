@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { useStore } from "@/store";
+// ref é para criar variaveis reativas
 import { defineComponent, ref } from "vue";
 
 import { TipoNotificacao } from "@/interfaces/INotificacao";
@@ -35,13 +36,16 @@ export default defineComponent({
     },
   },
   setup(props) {
-    
-    const router = useRouter()
+    //nao existe this aqui
+
+    // hook para vue router
+    // para pegar a rota atual use useRoute
+    const router = useRouter();
 
     const store = useStore();
     const { notificar } = useNotificador();
-    
-    const nomeDoProjeto = ref("")
+
+    const nomeDoProjeto = ref("");
 
     if (props.id) {
       const projeto = store.state.projeto.projetos.find(
@@ -58,7 +62,7 @@ export default defineComponent({
         "O projeto foi cadastrado com sucesso!"
       );
       router.push("/projetos");
-    }
+    };
 
     const salvar = () => {
       if (props.id) {
@@ -73,11 +77,11 @@ export default defineComponent({
           .dispatch(CADASTRAR_PROJETO, nomeDoProjeto.value)
           .then(() => lidarComSucesso());
       }
-    }
+    };
 
     return {
       nomeDoProjeto,
-      salvar
+      salvar,
     };
   },
 });
